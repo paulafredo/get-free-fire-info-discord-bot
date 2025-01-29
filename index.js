@@ -49,9 +49,12 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 })(); 
   
 // Bot Event Handlers
+
 bot.once('ready', () => {
   console.log('Le bot est prêt !');
+  console.log(`Le bot est connecté en tant que ${bot.user.tag}`);
 });
+
 
 bot.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
