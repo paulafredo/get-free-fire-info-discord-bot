@@ -12,7 +12,7 @@ const bot = new Client({
   ],
 });
 
-const SERVER_ID =  process.env.SERVER_ID; // Your server ID
+
 const APPLICATION_ID =  process.env.APPLICATION_ID; // Your bot's application ID
 const TOKEN =  process.env.TOKEN; // Your bot token
 
@@ -35,19 +35,19 @@ const commands = [
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
-// Register Slash Commands
+// Register Slash Commands globally
 (async () => {
   try {
-    console.log("Actualisation des commandes d'application (/)...");
-    await rest.put(Routes.applicationGuildCommands(APPLICATION_ID, SERVER_ID), {
+    console.log("Actualisation des commandes d'application globales (/)...");
+    await rest.put(Routes.applicationCommands(APPLICATION_ID), {
       body: commands,
     });
-    console.log("Commandes d'application (/) enregistrées avec succès.");
+    console.log("Commandes d'application globales (/) enregistrées avec succès.");
   } catch (error) {
     console.error(error);
   }
-})();
-
+})(); 
+  
 // Bot Event Handlers
 bot.once('ready', () => {
   console.log('Le bot est prêt !');
