@@ -5,11 +5,11 @@
     "main": "index.js",
     "type": "module",
     "dependencies": {
-      "axios": "^1.7.9",
-      "discord.js": "^14.17.3",
-      "dotenv": "^16.4.7",
-      "esm": "^3.2.25",
-      "node-fetch": "^3.3.2"
+        "axios": "^1.7.9",
+        "discord.js": "^14.17.3",
+        "dotenv": "^16.4.7",
+        "esm": "^3.2.25",
+        "heroku": "^8.7.1",
+        "node-fetch": "^3.3.2"
     }
-  }
-  
+}
