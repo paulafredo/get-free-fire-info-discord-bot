@@ -2,7 +2,6 @@ import { Client, GatewayIntentBits, REST, Routes } from 'discord.js';
 import fetch from 'node-fetch';
 import axios from 'axios';
 import 'dotenv/config'
-import config from './config/config.js';
 
 // Bot setup
 const bot = new Client({
@@ -13,33 +12,13 @@ const bot = new Client({
   ],
 });
 
-// Replace these with your IDs
-const SERVER_ID = config.SERVER_ID; // Your server ID
-const APPLICATION_ID = config.APPLICATION_ID; // Your bot's application ID
-const TOKEN = config.TOKEN; // Your bot token
+const SERVER_ID =  process.env.SERVER_ID; // Your server ID
+const APPLICATION_ID =  process.env.APPLICATION_ID; // Your bot's application ID
+const TOKEN =  process.env.TOKEN; // Your bot token
 
 
 // Slash Command Setup
 const commands = [
-//   {
-//     name: 'check_ban',
-//     description: 'Check if a UID is banned.',
-//     options: [
-//       {
-//         name: 'region',
-//         type: 3, // STRING
-//         description: 'Region of the UID',
-//         required: true,
-//       },
-//       {
-//         name: 'uid',
-//         type: 3, // STRING
-//         description: 'UID to check',
-//         required: true,
-//       },
-//     ],
-//   },
-
   {
     name: 'obtenir_des_informations',
     description: 'Obtenez des informations sur un joueur de Free Fire.',
@@ -71,7 +50,7 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 // Bot Event Handlers
 bot.once('ready', () => {
-  console.log('Bot is ready!');
+  console.log('Le bot est prêt !');
 });
 
 bot.on('interactionCreate', async (interaction) => {
@@ -79,13 +58,13 @@ bot.on('interactionCreate', async (interaction) => {
 
   const { commandName, options } = interaction;
 
-  if (commandName === 'get_info') {
+  if (commandName === 'obtenir_des_informations') {
     const uid = options.getString('uid');
     const dataInfo = await getPlayerInfo(uid); 
 
     // Affichage des informations du joueur dans un format lisible
     if (dataInfo.error) {
-      await interaction.reply(`Erreur : ${dataInfo.error}`);
+      await interaction.reply(`ERREUR : ${dataInfo.error}`);
     } else {
       
       console.log(dataInfo)
@@ -121,7 +100,7 @@ bot.on('interactionCreate', async (interaction) => {
             🏅 **Niveau du leader:** ${dataInfo.levelChef}
             ⏳ **Dernière connexion:** <t:${Math.floor(dataInfo.lastLoginChef)}:R>
       
-            🔗 **Suivez l'admin**
+            🔗 **Suivez l'admin ( Hi Fredo) **
             ────────────────
             📱 [Tiktok](https://www.tiktok.com/@thug.4ff)  
             🌐 [Site Web](https://free-fire-info.vercel.app/)
@@ -149,6 +128,7 @@ bot.on('interactionCreate', async (interaction) => {
 
 });
 
+
 async function getPlayerInfo(playerId) {
   try {
     if (!Number.isInteger(Number(playerId))) {
@@ -159,11 +139,10 @@ async function getPlayerInfo(playerId) {
 
     const response = await axios.get(url, {
       headers: {
-        'x-rapidapi-key': config.RAPIDAPI_KEY,
-        'x-rapidapi-host': config.RAPIDAPI_HOST,
+        'x-rapidapi-key': process.env.RAPIDAPI_KEY,  // 
+        'x-rapidapi-host': process.env.RAPIDAPI_HOST, 
       },
     });
-
     const responseData = response.data;
 
     if (responseData.status === 200) {
